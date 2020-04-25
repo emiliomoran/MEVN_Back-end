@@ -13,6 +13,7 @@ mongoose
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Connection db successfully on port 27017");
