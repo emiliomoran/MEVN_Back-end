@@ -59,15 +59,18 @@ export default {
   },
   update: async (req, res, next) => {
     try {
-      let pass = req.body.password;
       const reg0 = await models.User.findOne({
         _id: req.body._id,
       });
-      console.log("pass", pass);
-      console.log("reg0.password", reg0.password);
-      if (pass != reg0.password) {
+      let match = await bcrypt.compare(req.body.password, reg0.password);
+      if (!match) {
+        console.log("Disntinc");
         req.body.password = await bcrypt.hash(req.body.password, 10);
+      } else {
+        console.log("Equal");
+        req.body.password = reg0.password;
       }
+      //$2a$10$8XkQr7Mb.hRXNmBjfT1uwOnLTOHlkYhkHZWUZ3KrwGKw5nzKYFDVS;
       const reg = await models.User.findByIdAndUpdate(
         { _id: req.body._id },
         {

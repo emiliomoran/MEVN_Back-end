@@ -33,6 +33,27 @@ export default {
       next(error);
     }
   },
+  queryCode: async (req, res, next) => {
+    try {
+      const reg = await models.Item.findOne({
+        code: req.query.code,
+      }).populate({
+        path: "category",
+        select: ["name"],
+      });
+      if (!reg) {
+        res.status(404).send({
+          message: "Not found item",
+        });
+      }
+      res.status(200).json(reg);
+    } catch (error) {
+      res.status(500).send({
+        message: "Error query item",
+      });
+      next(error);
+    }
+  },
   list: async (req, res, next) => {
     try {
       let value = req.query.value;
