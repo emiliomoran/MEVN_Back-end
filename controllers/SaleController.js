@@ -33,23 +33,23 @@ const reduceStock = async (idItem, amount) => {
 export default {
   add: async (req, res, next) => {
     try {
-      const reg = await models.Income.create(req.body);
+      const reg = await models.Sale.create(req.body);
       //Updating stock
       let details = req.body.details;
       details.map((item) => {
-        addStock(item._id, item.amount);
+        reduceStock(item._id, item.amount);
       });
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error add income",
+        message: "Error add sale",
       });
       next(error);
     }
   },
   query: async (req, res, next) => {
     try {
-      const reg = await models.Income.findOne({ _id: req.query._id })
+      const reg = await models.Sale.findOne({ _id: req.query._id })
         .populate({
           path: "user",
           select: ["name"],
@@ -60,13 +60,13 @@ export default {
         });
       if (!reg) {
         res.status(404).send({
-          message: "Not found income",
+          message: "Not found sale",
         });
       }
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error query income",
+        message: "Error query sale",
       });
       next(error);
     }
@@ -74,7 +74,7 @@ export default {
   list: async (req, res, next) => {
     try {
       let value = req.query.value;
-      const reg = await models.Income.find({
+      const reg = await models.Sale.find({
         $or: [
           {
             proof_num: new RegExp(value, "i"),
@@ -98,14 +98,14 @@ export default {
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error list income",
+        message: "Error list sale",
       });
       next(error);
     }
   },
   /* update: async (req, res, next) => {
     try {
-      const reg = await models.Income.findByIdAndUpdate(
+      const reg = await models.Sale.findByIdAndUpdate(
         { _id: req.body._id },
         {
           name: req.body.name,
@@ -115,51 +115,30 @@ export default {
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error list income",
+        message: "Error list sale",
       });
       next(error);
     }
   },
   remove: async (req, res, next) => {
     try {
-      const reg = await models.Income.findByIdAndDelete({
+      const reg = await models.Sale.findByIdAndDelete({
         _id: req.body._id,
       });
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error list income",
+        message: "Error list sale",
       });
       next(error);
     }
   }, */
   activate: async (req, res, next) => {
     try {
-      const reg = await models.Income.findByIdAndUpdate(
+      const reg = await models.Sale.findByIdAndUpdate(
         { _id: req.body._id },
         {
           state: 1,
-        }
-      );
-      //Updating stock
-      let details = reg.details;
-      details.map((item) => {
-        addStock(item._id, item.amount);
-      });
-      res.status(200).json(reg);
-    } catch (error) {
-      res.status(500).send({
-        message: "Error list income",
-      });
-      next(error);
-    }
-  },
-  deactivate: async (req, res, next) => {
-    try {
-      const reg = await models.Income.findByIdAndUpdate(
-        { _id: req.body._id },
-        {
-          state: 0,
         }
       );
       //Updating stock
@@ -170,14 +149,35 @@ export default {
       res.status(200).json(reg);
     } catch (error) {
       res.status(500).send({
-        message: "Error list income",
+        message: "Error list sale",
+      });
+      next(error);
+    }
+  },
+  deactivate: async (req, res, next) => {
+    try {
+      const reg = await models.Sale.findByIdAndUpdate(
+        { _id: req.body._id },
+        {
+          state: 0,
+        }
+      );
+      //Updating stock
+      let details = reg.details;
+      details.map((item) => {
+        addStock(item._id, item.amount);
+      });
+      res.status(200).json(reg);
+    } catch (error) {
+      res.status(500).send({
+        message: "Error list sale",
       });
       next(error);
     }
   },
   report12Months: async (req, res, next) => {
     try {
-      const reg = await models.Income.aggregate([
+      const reg = await models.Sale.aggregate([
         {
           $group: {
             _id: {
@@ -216,7 +216,7 @@ export default {
     try {
       let start = req.query.start;
       let end = req.query.end;
-      const reg = await models.Income.find({
+      const reg = await models.Sale.find({
         createdAt: {
           $gte: start,
           $lt: end,
