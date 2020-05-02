@@ -149,7 +149,7 @@ export default {
         //Exist user
         let match = await bcrypt.compare(req.body.password, user.password);
         if (match) {
-          let tokenReturn = await token.encode(user._id);
+          let tokenReturn = await token.encode(user._id, user.rol, user.email);
           res.status(200).json({
             user,
             tokenReturn,
