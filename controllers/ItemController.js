@@ -90,7 +90,7 @@ export default {
       const reg = await models.Item.findByIdAndUpdate(
         { _id: req.body._id },
         {
-          category: req.body.categoy,
+          category: req.body.category,
           code: req.body.code,
           name: req.body.name,
           description: req.body.description,
