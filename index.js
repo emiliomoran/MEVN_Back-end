@@ -7,7 +7,10 @@ import router from "./routes";
 
 //Conection db
 mongoose.Promise = global.Promise;
-const dbUrl = "mongodb://127.0.0.1:27017/dbsystem";
+
+//const dbUrl = "mongodb://127.0.0.1:27017/dbsystem";
+const dbUrl =
+  "mongodb+srv://system:18yTj1issj4903eE@system-jymcz.mongodb.net/dbsystem?retryWrites=true&w=majority";
 mongoose
   .connect(dbUrl, {
     useUnifiedTopology: true,

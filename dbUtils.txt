@@ -1,0 +1,12 @@
+Backup and restore db from MongoDB
+
+List databases
+	mongo
+	show databases
+	
+Backup database
+	mongodump --db <dbname>
+	This command save db in a folder called dump, in my case the folder dump is in /home/user/dump
+	
+Restore database
+	mongorestore --db <dbname> /path/to/dump/db
