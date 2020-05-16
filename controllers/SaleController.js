@@ -90,7 +90,7 @@ export default {
         })
         .populate({
           path: "person",
-          select: ["name"],
+          select: ["name", "address", "doc_num", "phone", "email"],
         })
         .sort({
           createdAt: -1,
