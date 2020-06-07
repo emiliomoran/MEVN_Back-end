@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js --exec",
-    "dev": "nodemon index.js --exec babel-node"
+    "dev": "nodemon --exec babel-node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-inline-dotenv": "^1.5.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "bcryptjs": "^2.4.3",
@@ -23,6 +24,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.3"
   }
 }
